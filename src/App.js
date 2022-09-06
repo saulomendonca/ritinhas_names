@@ -19,7 +19,7 @@ const stages = [
 
 
 function App() {
-  const guessesQtyDefault = 3;
+  const guessesQtyDefault = 5;
   const [guessesQty, setGuessesQty] = useState(guessesQtyDefault)
 
   const [gameStage, setGameStage] = useState(stages[0].name);
@@ -37,9 +37,9 @@ function App() {
 
   const pickDogAndTip =  useCallback(() => {
     const dogs = Object.keys(words)
-    const dogName = dogs[Math.floor(Math.random() * dogs.length)];
-    const tip = words[dogName];
-    return { dogName, tip};
+    const dogNameStr = dogs[Math.floor(Math.random() * dogs.length)];
+    const tip = words[dogNameStr];
+    return { dogNameStr, tip};
   }, [words]);
 
   const normalize = (str) => {
@@ -50,9 +50,8 @@ function App() {
     clearLetterStates();
     setGuessesQty(guessesQtyDefault);
 
-    const {dogName, tip} = pickDogAndTip();
-    console.log(dogName)
-    let wordLetters = normalize(dogName).split("");
+    const {dogNameStr, tip} = pickDogAndTip();
+    let wordLetters = normalize(dogNameStr).split("");
 
     // //fill states
     setTip(tip);
@@ -60,7 +59,7 @@ function App() {
     setLetters(wordLetters);
 
     setGameStage(stages[1].name)
-  },[pickDogAndTip]);
+  },[pickDogAndTip,dogName]);
 
   const verifyLetter = (letter) => {
     const normalizedLetter = normalize(letter);
@@ -87,6 +86,10 @@ function App() {
 
   }
 
+  const handleLetterClick = (letter) => {
+    verifyLetter(letter)
+  }
+
   const clearLetterStates = () => {
     setguessedLetters([]);
     setWrongLetters([]);
@@ -104,9 +107,10 @@ function App() {
     //win conditions
     if(guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => actualScore + 100);
+      setguesses(guessesQty)
       startGame();
     }
-  }, [guessedLetters,letters,startGame])
+  }, [guessedLetters,letters,startGame,guessesQty])
 
   const retry = () => {
     setScore(0);
@@ -127,6 +131,7 @@ function App() {
           guessedLetters={guessedLetters}
           wrongLetters={wrongLetters}
           guesses={guesses}
+          handleLetterClick={handleLetterClick}
           score={score}
         />
       )}

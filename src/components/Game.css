@@ -1,3 +1,7 @@
+.game {
+  width: 100%;
+}
+
 .game h1 {
   font-size: 1.5em;
 }
@@ -21,38 +25,49 @@
 
 .letter, .blankSquare {
   font-size: 25px;
-  line-height: 29px;
+  line-height: 39px;
   border: 1px solid #000;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   text-transform: uppercase;
   background-color: #fff;
   color: #000;
   font-weight: bold;
 }
 
-.letterContainer p {
-  margin-bottom: 1.2em;
+.keyboard {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(32, 1fr);
+  grid-gap: 0.25em;
+  max-width: 720px;
+  padding: 0 0.5em 0.3em 0.5em;
+  margin: 10px auto;
 }
-
-.letterContainer form {
+.keyboard-letter {
+  grid-column: span 3;
   display: flex;
-  align-items: center;
+  font-size: 1em;
+  line-height: 1em;
+  margin: 0;
   justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  color: #FAFAFF;
+  padding: 0px;
 }
 
-.letterContainer input {
-  height: 30px;
-  width: 30px;
-  text-align: center;
-  font-size: 25px;
-  margin: 0 20px;
+.disable {
+  background-color: #6E6E6E;
+  cursor: default;
 }
 
-
-.wrongLettersContainer span {
-  margin-left: 3px;
-  color: #ffcc01;
+#btn_a {
+  grid-column: 2 / span 3;
 }
 
-
+#btn_z {
+  grid-column: 4 / span 3;
+}

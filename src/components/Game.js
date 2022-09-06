@@ -1,24 +1,21 @@
 import './Game.css'
-import {useState, useRef} from "react";
+
+const keyboardLetters = [
+  'q','w','e','r','t','y','u','i','o','p',
+  'a','s','d','f','g','h','j','k','l',
+  'z','x','c','v','b','n','m'
+]
 
 const Game = ({
-  verifyLetter,
   tip,
   letters,
   guessedLetters,
   wrongLetters,
+  handleLetterClick,
   guesses,
   score,
 }) => {
-  const [letter, setLetter] = useState("");
-  const letterInputRef = useRef(null)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    verifyLetter(letter);
-    setLetter("");
-    letterInputRef.current.focus();
-  }
   return (
     <div className='game'>
       <p className="points">
@@ -37,30 +34,21 @@ const Game = ({
           )
         ))}
       </div>
-        <div className="letterContainer">
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name='letter'
-              maxLength={1}
-              required
-              onChange={(e) => setLetter(e.target.value)}
-              value={letter}
-              ref={letterInputRef}
-            />
-            <button>Jogar!</button>
-          </form>
-          <p>Você ainda tem {guesses} tentativa(s)</p>
-        </div>
-        {wrongLetters.length > 0 && (
-          <div className='wrongLettersContainer'>
-            <p>Letras já utilizadas: 
-              <span>
-                {wrongLetters.join(", ")}
-              </span>
-            </p>
-          </div>
-        )}
+
+      <div>
+      Você ainda possui {guesses} tentativa(s)
+      </div>
+
+
+      <div className='keyboard'>
+        {keyboardLetters.map((letter, i) => (
+          <button id={'btn_' + letter} 
+            className={'keyboard-letter' + (guessedLetters.includes(letter) || wrongLetters.includes(letter) ? " disable" : "")} 
+            onClick={() => handleLetterClick(letter)}>
+            {letter}
+          </button>
+        ))}
+      </div>
 
     </div>
   )
